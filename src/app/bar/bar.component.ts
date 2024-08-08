@@ -25,7 +25,7 @@ export class BarComponent implements OnInit {
   private margin = 50;
   private width = 750 - (this.margin * 2);
   private height = 400 - (this.margin * 2);
-
+  private color = d3.scaleOrdinal(d3.schemeCategory10);
   private createSvg(): void {
     this.svg = d3.select("figure#bar")
       .append("svg")
@@ -40,7 +40,7 @@ export class BarComponent implements OnInit {
     const x = d3.scaleBand()
       .range([0, this.width])
       .domain(data.map(d => d.Framework))
-      .padding(0.2);
+      .padding(0);
 
     // Draw the X-axis on the DOM
     this.svg.append("g")
@@ -68,6 +68,7 @@ export class BarComponent implements OnInit {
       .attr("y", (d: any) => y(d.Stars))
       .attr("width", x.bandwidth())
       .attr("height", (d: any) => this.height - y(d.Stars))
-      .attr("fill", "#d04a35");
+      .attr("fill", (d: any, i: number) => d3.schemeCategory10[i % 10])
+    // .attr("fill", "#d04a35");
   }
 }

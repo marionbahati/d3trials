@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as d3 from 'd3';
-import { selectAll } from 'd3';
+import { color, selectAll } from 'd3';
 import { SimulationNodeDatum, drag, scaleOrdinal, schemeCategory10 } from 'd3';
 import e from 'express';
 
@@ -36,11 +36,12 @@ export class NetdraphComponent implements OnInit {
     { source: this.nodes[2], target: this.nodes[8] },
     { source: this.nodes[2], target: this.nodes[9] },
   ];
-  private color = scaleOrdinal(schemeCategory10);
+  private color = d3.scaleOrdinal(d3.schemeCategory10);
+
   private svg: any;
-  private margin = 50;
-  private width = 750 - (this.margin * 2);
-  private height = 400 - (this.margin * 2);
+  private margin = 200;
+  private width = 900 - (this.margin * 2);
+  private height = 900 - (this.margin * 2);
 
 
   private createSvg(): void {
@@ -58,7 +59,7 @@ export class NetdraphComponent implements OnInit {
 
     var simulation = d3
       .forceSimulation(this.nodes)
-      .force("charge", d3.forceManyBody().strength(-500))
+      .force("charge", d3.forceManyBody().strength(-900))
       .force("center", d3.forceCenter(this.width / 2, this.height / 2))
       .force("link", d3.forceLink(this.links))
       .on("tick", ticked);
@@ -69,11 +70,12 @@ export class NetdraphComponent implements OnInit {
       .data(this.links)
       .enter()
       .append("line")
-      .attr("stroke-width", 6)
-
+      //.attr("stroke-width", 6)
+      .attr("stroke-width", (d: { i: number; }) => Math.sqrt(d.i * 24))
       .style("stroke", "orange")
 
       ;
+
 
     var nodes = this.svg
       .append("g")
@@ -82,14 +84,25 @@ export class NetdraphComponent implements OnInit {
       .enter()
       .append("circle")
       .attr("r", 20)
-      .attr("fill", "blue")
+      //this stroke down here is the circle border
+      .style("stroke", "yellow")
+      .style("stroke-width", "3")
+      .attr("fill", (d: any, i: number) => d3.schemeCategory10[i % 10])
+    //.attr("fill", (d: any, i: number) => d3.schemeCategory10[d.group]) 
+    //u can use this to color smae color according to the groups.
 
 
-    //  var drag = d3
-    //  .drag()
-    //    .on('start', (e, d) => dragstarted(e, d))
+    var drag = d3
+      .drag()
+      .on('start', (e, d) => dragstarted(e, <SimulationNodeDatum>d))
+      .on('drag', (e, d) => dragged(e, <SimulationNodeDatum>d))
+      .on('end', (e, d) => dragended(e, <SimulationNodeDatum>d));
+
+    // var drag = d3
+    //   .drag()
+    //   .on('start', (e, d) => dragstarted(e, d))
     //   .on('drag', (e, d) => dragged(e, d))
-    //    .on('end', (e, d) => dragended(e, d));
+    //   .on('end', (e, d) => dragended(e, d));
 
     var text = this.svg
       .append("g")
@@ -97,9 +110,16 @@ export class NetdraphComponent implements OnInit {
       .data(this.nodes)
       .enter()
       .append("text")
+      //.attr("fill", (d: any, i: number) => d3.schemeCategory10[i % 10])
+      //colouring the text with different colours
+      .style("stroke", (d: any, i: number) => d3.schemeCategory10[i % 35])
+      // .style("stroke", "green")
       .text((d: any) => d.name)
 
     nodes.call(drag);
+    // var data=d3.json('https:').then(data=>{
+
+    // })
 
     function ticked() {
       //updating the position
@@ -126,28 +146,28 @@ export class NetdraphComponent implements OnInit {
         });
       //console.log(simulation.alpha());
       text
-        .attr("cx", function (d: { x: number; }) {
+        .attr("dx", function (d: { x: number; }) {
           return d.x * 1.2;
         })
-        .attr("cy", function (d: { y: number; }) {
-          return d.y * 1.2;
+        .attr("dy", function (d: { y: number; }) {
+          return d.y * 1.3;
         });
 
     }
-
+    //mouse down
     const dragstarted = (e: any, d: SimulationNodeDatum) => {
       if (!e.active) {
-        simulation.alphaTarget(0.2).restart();
+        simulation.alphaTarget(0.3).restart();
       }
       d.fx = d.x;
       d.fy = d.y;
     };
-
+    //mouse move
     const dragged = (e: any, d: SimulationNodeDatum) => {
       d.fx = e.x;
       d.fy = e.y;
     };
-
+    //mouse up
     const dragended = (e: any, d: SimulationNodeDatum) => {
       if (!e.active) {
         simulation.alphaTarget(0);
@@ -160,8 +180,10 @@ export class NetdraphComponent implements OnInit {
 
   }
 
-
-
+  // text attributes can be:
+  //  .att("text-anchor","middle/start/end"),
+  // to place thetext where you want
+  //https://blog.logrocket.com/data-visualization-angular-d3-js/#setting-up-angular-d3
 
 }
 
