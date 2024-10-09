@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { transition } from '@angular/animations';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit, inject } from '@angular/core';
 import * as d3 from 'd3';
 import { color, selectAll } from 'd3';
 import { SimulationNodeDatum, drag, scaleOrdinal, schemeCategory10 } from 'd3';
 import e from 'express';
+import { delay } from 'rxjs';
 
 @Component({
   selector: 'app-netdraph',
@@ -12,6 +15,10 @@ import e from 'express';
   styleUrl: './netdraph.component.scss'
 })
 export class NetdraphComponent implements OnInit {
+
+
+
+
 
   private nodes = [
     { index: 0, name: '', group: 0 },
@@ -39,8 +46,8 @@ export class NetdraphComponent implements OnInit {
   private color = d3.scaleOrdinal(d3.schemeCategory10);
 
   private svg: any;
-  private margin = 200;
-  private width = 900 - (this.margin * 2);
+  private margin = 50;
+  private width = 1200 - (this.margin * 2);
   private height = 900 - (this.margin * 2);
 
 
@@ -53,13 +60,14 @@ export class NetdraphComponent implements OnInit {
 
   }
 
+
   ngOnInit(): void {
 
     this.createSvg();
 
     var simulation = d3
       .forceSimulation(this.nodes)
-      .force("charge", d3.forceManyBody().strength(-900))
+      .force("charge", d3.forceManyBody().strength(-2500))
       .force("center", d3.forceCenter(this.width / 2, this.height / 2))
       .force("link", d3.forceLink(this.links))
       .on("tick", ticked);
@@ -76,6 +84,12 @@ export class NetdraphComponent implements OnInit {
 
       ;
 
+    // var ticks = Scrubber(d3.range(10), {
+    //   autoplay: false,
+    //   loop: false,
+    //   alternate: true,
+    //   initial: 5
+    // })
 
     var nodes = this.svg
       .append("g")
@@ -83,14 +97,24 @@ export class NetdraphComponent implements OnInit {
       .data(this.nodes)
       .enter()
       .append("circle")
-      .attr("r", 20)
+      .attr("r", 40)
       //this stroke down here is the circle border
       .style("stroke", "yellow")
       .style("stroke-width", "3")
       .attr("fill", (d: any, i: number) => d3.schemeCategory10[i % 10])
     //.attr("fill", (d: any, i: number) => d3.schemeCategory10[d.group]) 
-    //u can use this to color smae color according to the groups.
-
+    //u can use this to color same color according to the groups.
+    //  for rectangle
+    //     var nodes = this.svg
+    //       .append("g")
+    //       .selectAll("rect")
+    //       .data(this.nodes)
+    //       .enter().append('rect')
+    //       .attr('width', 50)
+    //       .attr('height', 30)
+    //       .attr("fill", (d: any, i: number) => d3.schemeCategory10[i % 10])
+    //       .attr('rx', 6)  // Rounded corners
+    //       .attr('ry', 6)  // Rounded corners
 
     var drag = d3
       .drag()
@@ -121,14 +145,18 @@ export class NetdraphComponent implements OnInit {
 
     // })
 
+
     function ticked() {
       //updating the position
       nodes
         .attr("cx", function (d: { x: number; }) {
-          return d.x * 1.2;
+          return d.x * 1.25;
         })
         .attr("cy", function (d: { y: number; }) {
           return d.y * 1.2;
+          //for rectangle
+          // .attr('x', (d: any) => d.x * 1.2) // Center the rectangle on the node
+          // .attr('y', (d: any) => d.y * 1.2)
         });
 
       links
@@ -150,7 +178,7 @@ export class NetdraphComponent implements OnInit {
           return d.x * 1.2;
         })
         .attr("dy", function (d: { y: number; }) {
-          return d.y * 1.3;
+          return d.y * 1.2;
         });
 
     }
@@ -192,4 +220,8 @@ export class NetdraphComponent implements OnInit {
 
 
 
+
+function Scrubber(arg0: number[], arg1: { autoplay: boolean; loop: boolean; alternate: boolean; initial: number; }) {
+  throw new Error('Function not implemented.');
+}
 
