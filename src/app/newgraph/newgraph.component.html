@@ -1,5 +1,42 @@
-<div>
-    <input type="text" [(ngModel)]="searchTerm" placeholder="Enter node name" />
-    <button (click)="filterGraph()">Search</button>
+<div style="border: 1px solid rgb(130, 129, 134);">
+    <h1 style="margin-left: 25vw;">CODESCHAFFER KUNDEN</h1>
+    <div style="display: flex;margin-top: 3vh;margin-left: 25vw;margin-bottom: 1vh;">
+        <label for="inputField">Kunde wählen:</label>
+        <select [(ngModel)]="searchTerm" (change)="addFilterAndCreateLinks($event)">
+            <option *ngFor="let company of available_companies" [value]="company">{{company}}</option>
+
+        </select>
+
+        <button (click)="DeleteSEarchterm()" style="background-color: rgb(212, 160, 160);">Löschen</button>
+        <button (click)="reloadPage()">Refresh</button>
+
+    </div>
+
+    <div style="display: flex;flex-direction: row;margin-left: 30vw;margin-top: 2vh;margin-left: 22vw;">
+        <div style="margin-right: 10px;">
+            <label>Beziehungstypen</label>
+            <select [(ngModel)]="relation_filter">
+                <option value="">none</option>
+                <option *ngFor="let rel of available_relations" [value]="rel">{{rel}}</option>
+            </select>
+        </div>
+        <div>
+            <label>Center Company</label>
+            <select [(ngModel)]="selected_company">
+                <option *ngFor="let company of available_companies" [value]="company">{{company}}</option>
+            </select>
+        </div>
+
+    </div>
+    <div *ngIf="relationsList.length > 0" style="margin-top: 20px;margin-left: 15vw">
+        <h3>Relations for {{ searchTerm }}:</h3>
+        <ul>
+            <li *ngFor="let relation of relationsList">{{ relation }}</li>
+        </ul>
+    </div>
+    <div id="graphContainer" style="margin-left: 5vw;"></div>
+
+    <figure id="netgraph" style="margin-left: 5vw;"></figure>
+
+
 </div>
-<figure id="netgraph"></figure>

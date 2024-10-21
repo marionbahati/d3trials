@@ -1,0 +1,565 @@
+[
+    {
+        "id": 1,
+        "CreatedAt": "2024-10-10T14:40:24.035007961+02:00",
+        "UpdatedAt": "2024-10-10T14:40:24.035007961+02:00",
+        "DeletedAt": null,
+        "name": "Codeschaffer",
+        "Relations": [
+            {
+                "id": 1,
+                "CreatedAt": "2024-10-10T14:40:24.240428723+02:00",
+                "UpdatedAt": "2024-10-10T14:40:24.240428723+02:00",
+                "DeletedAt": null,
+                "relation_type": "customer_of",
+                "SubjectID": 1,
+                "Subject": {
+                    "id": 0,
+                    "CreatedAt": null,
+                    "UpdatedAt": null,
+                    "DeletedAt": null,
+                    "name": "",
+                    "Relations": null
+                },
+                "ObjectID": 2,
+                "Object": {
+                    "id": 0,
+                    "CreatedAt": null,
+                    "UpdatedAt": null,
+                    "DeletedAt": null,
+                    "name": "",
+                    "Relations": null
+                }
+            },
+            {
+                "id": 2,
+                "CreatedAt": "2024-10-10T14:40:24.255006955+02:00",
+                "UpdatedAt": "2024-10-10T14:40:24.255006955+02:00",
+                "DeletedAt": null,
+                "name": "",
+                "relation_type": "customer_of",
+                "SubjectID": 1,
+                "Subject": {
+                    "id": 0,
+                    "CreatedAt": null,
+                    "UpdatedAt": null,
+                    "DeletedAt": null,
+                    "name": "",
+                    "Relations": null
+                },
+                "ObjectID": 3,
+                "Object": {
+                    "id": 0,
+                    "CreatedAt": null,
+                    "UpdatedAt": null,
+                    "DeletedAt": null,
+                    "name": "",
+                    "Relations": null
+                }
+            },
+            {
+                "id": 3,
+                "CreatedAt": "2024-10-10T14:40:24.269605184+02:00",
+                "UpdatedAt": "2024-10-10T14:40:24.269605184+02:00",
+                "DeletedAt": null,
+                "name": "Blue",
+                "relation_type": "customer_of",
+                "SubjectID": 1,
+                "Subject": {
+                    "id": 0,
+                    "CreatedAt": null,
+                    "UpdatedAt": null,
+                    "DeletedAt": null,
+                    "name": "",
+                    "Relations": null
+                },
+                "ObjectID": 4,
+                "Object": {
+                    "id": 0,
+                    "CreatedAt": null,
+                    "UpdatedAt": null,
+                    "DeletedAt": null,
+                    "name": "",
+                    "Relations": null
+                }
+            },
+            {
+                "id": 4,
+                "CreatedAt": "2024-10-10T14:40:24.284731238+02:00",
+                "UpdatedAt": "2024-10-10T14:40:24.284731238+02:00",
+                "DeletedAt": null,
+                "relation_type": "customer_of",
+                "SubjectID": 1,
+                "Subject": {
+                    "id": 0,
+                    "CreatedAt": null,
+                    "UpdatedAt": null,
+                    "DeletedAt": null,
+                    "name": "",
+                    "Relations": null
+                },
+                "ObjectID": 5,
+                "Object": {
+                    "id": 0,
+                    "CreatedAt": null,
+                    "UpdatedAt": null,
+                    "DeletedAt": null,
+                    "name": "",
+                    "Relations": null
+                }
+            },
+            {
+                "id": 5,
+                "CreatedAt": "2024-10-10T14:40:24.299326251+02:00",
+                "UpdatedAt": "2024-10-10T14:40:24.299326251+02:00",
+                "DeletedAt": null,
+                "relation_type": "customer_of",
+                "SubjectID": 1,
+                "Subject": {
+                    "id": 0,
+                    "CreatedAt": null,
+                    "UpdatedAt": null,
+                    "DeletedAt": null,
+                    "name": "",
+                    "Relations": null
+                },
+                "ObjectID": 6,
+                "Object": {
+                    "id": 0,
+                    "CreatedAt": null,
+                    "UpdatedAt": null,
+                    "DeletedAt": null,
+                    "name": "",
+                    "Relations": null
+                }
+            },
+            {
+                "id": 6,
+                "CreatedAt": "2024-10-10T14:40:24.313844761+02:00",
+                "UpdatedAt": "2024-10-10T14:40:24.313844761+02:00",
+                "DeletedAt": null,
+                "relation_type": "customer_of",
+                "SubjectID": 1,
+                "Subject": {
+                    "id": 0,
+                    "CreatedAt": null,
+                    "UpdatedAt": null,
+                    "DeletedAt": null,
+                    "name": "",
+                    "Relations": null
+                },
+                "ObjectID": 7,
+                "Object": {
+                    "id": 0,
+                    "CreatedAt": null,
+                    "UpdatedAt": null,
+                    "DeletedAt": null,
+                    "name": "",
+                    "Relations": null
+                }
+            },
+            {
+                "id": 7,
+                "CreatedAt": "2024-10-10T14:40:24.327987833+02:00",
+                "UpdatedAt": "2024-10-10T14:40:24.327987833+02:00",
+                "DeletedAt": null,
+                "relation_type": "customer_of",
+                "SubjectID": 1,
+                "Subject": {
+                    "id": 0,
+                    "CreatedAt": null,
+                    "UpdatedAt": null,
+                    "DeletedAt": null,
+                    "name": "",
+                    "Relations": null
+                },
+                "ObjectID": 8,
+                "Object": {
+                    "id": 0,
+                    "CreatedAt": null,
+                    "UpdatedAt": null,
+                    "DeletedAt": null,
+                    "name": "",
+                    "Relations": null
+                }
+            },
+            {
+                "id": 8,
+                "CreatedAt": "2024-10-10T14:40:24.342702021+02:00",
+                "UpdatedAt": "2024-10-10T14:40:24.342702021+02:00",
+                "DeletedAt": null,
+                "relation_type": "customer_of",
+                "SubjectID": 1,
+                "Subject": {
+                    "id": 0,
+                    "CreatedAt": null,
+                    "UpdatedAt": null,
+                    "DeletedAt": null,
+                    "name": "",
+                    "Relations": null
+                },
+                "ObjectID": 9,
+                "Object": {
+                    "id": 0,
+                    "CreatedAt": null,
+                    "UpdatedAt": null,
+                    "DeletedAt": null,
+                    "name": "",
+                    "Relations": null
+                }
+            },
+            {
+                "id": 9,
+                "CreatedAt": "2024-10-10T14:40:24.357075667+02:00",
+                "UpdatedAt": "2024-10-10T14:40:24.357075667+02:00",
+                "DeletedAt": null,
+                "relation_type": "customer_of",
+                "SubjectID": 1,
+                "Subject": {
+                    "id": 0,
+                    "CreatedAt": null,
+                    "UpdatedAt": null,
+                    "DeletedAt": null,
+                    "name": "",
+                    "Relations": null
+                },
+                "ObjectID": 10,
+                "Object": {
+                    "id": 0,
+                    "CreatedAt": null,
+                    "UpdatedAt": null,
+                    "DeletedAt": null,
+                    "name": "",
+                    "Relations": null
+                }
+            },
+            {
+                "id": 10,
+                "CreatedAt": "2024-10-10T14:40:24.371183162+02:00",
+                "UpdatedAt": "2024-10-10T14:40:24.371183162+02:00",
+                "DeletedAt": null,
+                "relation_type": "customer_of",
+                "SubjectID": 1,
+                "Subject": {
+                    "id": 0,
+                    "CreatedAt": null,
+                    "UpdatedAt": null,
+                    "DeletedAt": null,
+                    "name": "",
+                    "Relations": null
+                },
+                "ObjectID": 11,
+                "Object": {
+                    "id": 0,
+                    "CreatedAt": null,
+                    "UpdatedAt": null,
+                    "DeletedAt": null,
+                    "name": "",
+                    "Relations": null
+                }
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "CreatedAt": "2024-10-10T14:40:24.051789575+02:00",
+        "UpdatedAt": "2024-10-10T14:40:24.051789575+02:00",
+        "DeletedAt": null,
+        "name": "Vaillant Group",
+        "Relations": [
+            {
+                "id": 18,
+                "CreatedAt": "2024-10-10T14:40:24.486325591+02:00",
+                "UpdatedAt": "2024-10-10T14:40:24.486325591+02:00",
+                "DeletedAt": null,
+                "relation_type": "parent_of",
+                "SubjectID": 2,
+                "Subject": {
+                    "id": 0,
+                    "CreatedAt": null,
+                    "UpdatedAt": null,
+                    "DeletedAt": null,
+                    "name": "",
+                    "Relations": null
+                },
+                "ObjectID": 3,
+                "Object": {
+                    "id": 0,
+                    "CreatedAt": null,
+                    "UpdatedAt": null,
+                    "DeletedAt": null,
+                    "name": "",
+                    "Relations": null
+                }
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "CreatedAt": "2024-10-10T14:40:24.068647002+02:00",
+        "UpdatedAt": "2024-10-10T14:40:24.068647002+02:00",
+        "DeletedAt": null,
+        "name": "Vaillant Deutschland GmbH",
+        "Relations": [
+            {
+                "id": 17,
+                "CreatedAt": "2024-10-10T14:40:24.471823542+02:00",
+                "UpdatedAt": "2024-10-10T14:40:24.471823542+02:00",
+                "DeletedAt": null,
+                "relation_type": "subsidiary_of",
+                "SubjectID": 3,
+                "Subject": {
+                    "id": 0,
+                    "CreatedAt": null,
+                    "UpdatedAt": null,
+                    "DeletedAt": null,
+                    "name": "",
+                    "Relations": null
+                },
+                "ObjectID": 2,
+                "Object": {
+                    "id": 0,
+                    "CreatedAt": null,
+                    "UpdatedAt": null,
+                    "DeletedAt": null,
+                    "name": "",
+                    "Relations": null
+                }
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "CreatedAt": "2024-10-10T14:40:24.085163496+02:00",
+        "UpdatedAt": "2024-10-10T14:40:24.085163496+02:00",
+        "DeletedAt": null,
+        "name": "Procter \u0026 Gamble",
+        "Relations": [
+            {
+                "id": 15,
+                "CreatedAt": "2024-10-10T14:40:24.443668376+02:00",
+                "UpdatedAt": "2024-10-10T14:40:24.443668376+02:00",
+                "DeletedAt": null,
+                "relation_type": "subsidiary_of",
+                "SubjectID": 4,
+                "Subject": {
+                    "id": 0,
+                    "CreatedAt": null,
+                    "UpdatedAt": null,
+                    "DeletedAt": null,
+                    "name": "",
+                    "Relations": null
+                },
+                "ObjectID": 5,
+                "Object": {
+                    "id": 0,
+                    "CreatedAt": null,
+                    "UpdatedAt": null,
+                    "DeletedAt": null,
+                    "name": "",
+                    "Relations": null
+                }
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "CreatedAt": "2024-10-10T14:40:24.101019555+02:00",
+        "UpdatedAt": "2024-10-10T14:40:24.101019555+02:00",
+        "DeletedAt": null,
+        "name": "Braun GmbH",
+        "Relations": [
+            {
+                "id": 16,
+                "CreatedAt": "2024-10-10T14:40:24.458124838+02:00",
+                "UpdatedAt": "2024-10-10T14:40:24.458124838+02:00",
+                "DeletedAt": null,
+                "relation_type": "parent_of",
+                "SubjectID": 5,
+                "Subject": {
+                    "id": 0,
+                    "CreatedAt": null,
+                    "UpdatedAt": null,
+                    "DeletedAt": null,
+                    "name": "",
+                    "Relations": null
+                },
+                "ObjectID": 4,
+                "Object": {
+                    "id": 0,
+                    "CreatedAt": null,
+                    "UpdatedAt": null,
+                    "DeletedAt": null,
+                    "name": "",
+                    "Relations": null
+                }
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "CreatedAt": "2024-10-10T14:40:24.116781498+02:00",
+        "UpdatedAt": "2024-10-10T14:40:24.116781498+02:00",
+        "DeletedAt": null,
+        "name": "Seldom",
+        "Relations": []
+    },
+    {
+        "id": 7,
+        "CreatedAt": "2024-10-10T14:40:24.13210809+02:00",
+        "UpdatedAt": "2024-10-10T14:40:24.13210809+02:00",
+        "DeletedAt": null,
+        "name": "Bruch Kälte- und Klimatechnik",
+        "Relations": []
+    },
+    {
+        "id": 8,
+        "CreatedAt": "2024-10-10T14:40:24.147819457+02:00",
+        "UpdatedAt": "2024-10-10T14:40:24.147819457+02:00",
+        "DeletedAt": null,
+        "name": "EVS Interactive",
+        "Relations": []
+    },
+    {
+        "id": 9,
+        "CreatedAt": "2024-10-10T14:40:24.163572913+02:00",
+        "UpdatedAt": "2024-10-10T14:40:24.163572913+02:00",
+        "DeletedAt": null,
+        "name": "Foodwatch",
+        "Relations": []
+    },
+    {
+        "id": 10,
+        "CreatedAt": "2024-10-10T14:40:24.179676098+02:00",
+        "UpdatedAt": "2024-10-10T14:40:24.179676098+02:00",
+        "DeletedAt": null,
+        "name": "Utopiastadt gGmbh",
+        "Relations": []
+    },
+    {
+        "id": 11,
+        "CreatedAt": "2024-10-10T14:40:24.195577063+02:00",
+        "UpdatedAt": "2024-10-10T14:40:24.195577063+02:00",
+        "DeletedAt": null,
+        "name": "Creditreform",
+        "Relations": []
+    },
+    {
+        "id": 12,
+        "CreatedAt": "2024-10-10T14:40:24.211440176+02:00",
+        "UpdatedAt": "2024-10-10T14:40:24.211440176+02:00",
+        "DeletedAt": null,
+        "name": "Contento Digital",
+        "Relations": [
+            {
+                "id": 11,
+                "CreatedAt": "2024-10-10T14:40:24.385327265+02:00",
+                "UpdatedAt": "2024-10-10T14:40:24.385327265+02:00",
+                "DeletedAt": null,
+                "relation_type": "partner_of",
+                "SubjectID": 12,
+                "Subject": {
+                    "id": 0,
+                    "CreatedAt": null,
+                    "UpdatedAt": null,
+                    "DeletedAt": null,
+                    "name": "",
+                    "Relations": null
+                },
+                "ObjectID": 1,
+                "Object": {
+                    "id": 0,
+                    "CreatedAt": null,
+                    "UpdatedAt": null,
+                    "DeletedAt": null,
+                    "name": "",
+                    "Relations": null
+                }
+            },
+            {
+                "id": 14,
+                "CreatedAt": "2024-10-10T14:40:24.428864018+02:00",
+                "UpdatedAt": "2024-10-10T14:40:24.428864018+02:00",
+                "DeletedAt": null,
+                "relation_type": "partner_of",
+                "SubjectID": 12,
+                "Subject": {
+                    "id": 0,
+                    "CreatedAt": null,
+                    "UpdatedAt": null,
+                    "DeletedAt": null,
+                    "name": "",
+                    "Relations": null
+                },
+                "ObjectID": 13,
+                "Object": {
+                    "id": 0,
+                    "CreatedAt": null,
+                    "UpdatedAt": null,
+                    "DeletedAt": null,
+                    "name": "",
+                    "Relations": null
+                }
+            }
+        ]
+    },
+    {
+        "id": 13,
+        "CreatedAt": "2024-10-10T14:40:24.225580763+02:00",
+        "UpdatedAt": "2024-10-10T14:40:24.225580763+02:00",
+        "DeletedAt": null,
+        "name": "AnimaContent",
+        "Relations": [
+            {
+                "id": 12,
+                "CreatedAt": "2024-10-10T14:40:24.400021055+02:00",
+                "UpdatedAt": "2024-10-10T14:40:24.400021055+02:00",
+                "DeletedAt": null,
+                "relation_type": "partner_of",
+                "SubjectID": 13,
+                "Subject": {
+                    "id": 0,
+                    "CreatedAt": null,
+                    "UpdatedAt": null,
+                    "DeletedAt": null,
+                    "name": "",
+                    "Relations": null
+                },
+                "ObjectID": 1,
+                "Object": {
+                    "id": 0,
+                    "CreatedAt": null,
+                    "UpdatedAt": null,
+                    "DeletedAt": null,
+                    "name": "",
+                    "Relations": null
+                }
+            },
+            {
+                "id": 13,
+                "CreatedAt": "2024-10-10T14:40:24.414289974+02:00",
+                "UpdatedAt": "2024-10-10T14:40:24.414289974+02:00",
+                "DeletedAt": null,
+                "relation_type": "partner_of",
+                "SubjectID": 13,
+                "Subject": {
+                    "id": 0,
+                    "CreatedAt": null,
+                    "UpdatedAt": null,
+                    "DeletedAt": null,
+                    "name": "",
+                    "Relations": null
+                },
+                "ObjectID": 12,
+                "Object": {
+                    "id": 0,
+                    "CreatedAt": null,
+                    "UpdatedAt": null,
+                    "DeletedAt": null,
+                    "name": "",
+                    "Relations": null
+                }
+            }
+        ]
+    }
+]

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NetdraphComponent } from './netdraph.component';
+import { TrialComponent } from './trial.component';
 
-describe('NetdraphComponent', () => {
-  let component: NetdraphComponent;
-  let fixture: ComponentFixture<NetdraphComponent>;
+describe('TrialComponent', () => {
+  let component: TrialComponent;
+  let fixture: ComponentFixture<TrialComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NetdraphComponent]
+      imports: [TrialComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(NetdraphComponent);
+    fixture = TestBed.createComponent(TrialComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

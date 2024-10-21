@@ -1,74 +1,162 @@
 import { Component, OnInit } from '@angular/core';
 import * as d3 from 'd3';
+import { GraphdataService } from '../graphdata.service';
+import { Company } from '../interfaces/company';
+import { FormsModule } from '@angular/forms';
+import { first } from 'rxjs';
 @Component({
   selector: 'app-bar',
   standalone: true,
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './bar.component.html',
   styleUrl: './bar.component.scss'
 })
-export class BarComponent implements OnInit {
+export class BarComponent {
+  selectedRelation: any;
+  selectedCenterCompany: any;
+  filterGraph() {
+    throw new Error('Method not implemented.');
+  }
+
+  constructor(private dataSevice: GraphdataService) { }
+
+  searchTerm: string = '';
+  private nodes: any[] = [];
+  private links: any[] = [];
+  private svg: any;
+  private margin = 20;
+  private width = 1200 - (this.margin * 2);
+  private height = 900 - (this.margin * 2);
+  centerCompanyName = 'CodeShaffer'; // Center company set to CodeShaffer
+
+
+  relation_filter: string = '';
+  available_companies: Company[] = [];
+  available_relations: string[] = [];
+  graphData: any = { nodes: [], links: [] };
+
 
   ngOnInit(): void {
-    this.createSvg();
-    this.drawBars(this.data);
+    this.getAvailableCompanies();
   }
 
-  private data = [
-    { "Framework": "Vue", "Stars": "166443", "Released": "2014" },
-    { "Framework": "React", "Stars": "150793", "Released": "2013" },
-    { "Framework": "Angular", "Stars": "62342", "Released": "2016" },
-    { "Framework": "Backbone", "Stars": "27647", "Released": "2010" },
-    { "Framework": "Ember", "Stars": "21471", "Released": "2011" },
-  ];
-  private svg: any;
-  private margin = 50;
-  private width = 750 - (this.margin * 2);
-  private height = 400 - (this.margin * 2);
-  private color = d3.scaleOrdinal(d3.schemeCategory10);
-  private createSvg(): void {
-    this.svg = d3.select("figure#bar")
-      .append("svg")
-      .attr("width", this.width + (this.margin * 2))
-      .attr("height", this.height + (this.margin * 2))
-      .append("g")
-      .attr("transform", "translate(" + this.margin + "," + this.margin + ")");
+  getAvailableCompanies() {
+    // Fetch the companies and relations from a service or hardcoded data
+    this.available_companies = this.dataSevice.getCompanies();
+
+    // Get the available relations
+    this.available_relations = [...new Set(this.available_companies.flatMap(c => c.Relations.map(r => r.relation_type)))];
   }
 
-  private drawBars(data: any[]): void {
-    // Create the X-axis band scale
-    const x = d3.scaleBand()
-      .range([0, this.width])
-      .domain(data.map(d => d.Framework))
-      .padding(0);
+  addfilter(event: any) {
+    const searchTerm = this.searchTerm.toLowerCase();
+    const relationFilter = this.relation_filter;
 
-    // Draw the X-axis on the DOM
-    this.svg.append("g")
-      .attr("transform", "translate(0," + this.height + ")")
-      .call(d3.axisBottom(x))
-      .selectAll("text")
-      .attr("transform", "translate(-10,0)rotate(-45)")
-      .style("text-anchor", "end");
+    // Find the source node (the searched company)
+    const sourceCompany = this.available_companies.find(c => c.name.toLowerCase() === searchTerm);
 
-    // Create the Y-axis band scale
-    const y = d3.scaleLinear()
-      .domain([0, 200000])
-      .range([this.height, 0]);
+    if (sourceCompany) {
+      // Filter relations based on the selected relation type
+      const filteredRelations = sourceCompany.Relations.filter(rel => {
+        return relationFilter ? rel.relation_type === relationFilter : true;
+      });
 
-    // Draw the Y-axis on the DOM
-    this.svg.append("g")
-      .call(d3.axisLeft(y));
+      // Map filtered relations to target nodes
+      const targetNodes = filteredRelations.map(rel => {
+        return this.available_companies.find(c => c.id === rel.ObjectID || c.id === rel['SubjectID']);
+      }).filter(t => t !== undefined); // Remove undefined targets
 
-    // Create and fill the bars
-    this.svg.selectAll("bars")
-      .data(data)
-      .enter()
-      .append("rect")
-      .attr("x", (d: any) => x(d.Framework))
-      .attr("y", (d: any) => y(d.Stars))
-      .attr("width", x.bandwidth())
-      .attr("height", (d: any) => this.height - y(d.Stars))
-      .attr("fill", (d: any, i: number) => d3.schemeCategory10[i % 10])
-    // .attr("fill", "#d04a35");
+      // Prepare D3 data: Add source and target nodes to graphData
+      this.graphData.nodes = [sourceCompany, ...targetNodes];
+      this.graphData.links = filteredRelations.map(rel => ({
+        source: sourceCompany.id,
+        target: rel.ObjectID === sourceCompany.id ? rel['SubjectID'] : rel.ObjectID,
+        type: rel.relation_type
+      }));
+
+      // Update the D3 graph
+      this.drawGraph();
+    }
+  }
+
+  drawGraph() {
+    const svg = d3.select('svg');
+    svg.selectAll('*').remove(); // Clear existing graph
+
+    const width = +svg.attr('width');
+    const height = +svg.attr('height');
+
+    const simulation = d3.forceSimulation(this.graphData.nodes)
+      .force('link', d3.forceLink(this.graphData.links).id((d: any) => d.id))
+      .force('charge', d3.forceManyBody().strength(-200))
+      .force('center', d3.forceCenter(width / 2, height / 2));
+
+    const link = svg.append('g')
+      .attr('class', 'links')
+      .selectAll('line')
+      .data(this.graphData.links)
+      .enter().append('line')
+      .attr('stroke-width', 2)
+      .attr('stroke', '#999');
+
+    const node = svg.append('g')
+      .attr('class', 'nodes')
+      .selectAll('circle')
+      .data(this.graphData.nodes)
+      .enter().append('circle')
+      .attr('r', 10)
+      .attr('fill', '#69b3a2')
+      .call(d3.drag().call(d3.drag()
+        .on('start', dragstarted)
+        .on('drag', dragged)
+        .on('end', dragended)));
+
+
+
+
+    const label = svg.append('g')
+      .attr('class', 'labels')
+      .selectAll('text')
+      .data(this.graphData.nodes)
+      .enter().append('text')
+      .text((d: any) => d.name)
+      .attr('x', 6)
+      .attr('y', 3);
+
+    simulation.on('tick', () => {
+      link
+        .attr('x1', (d: any) => d.source.x)
+        .attr('y1', (d: any) => d.source.y)
+        .attr('x2', (d: any) => d.target.x)
+        .attr('y2', (d: any) => d.target.y);
+
+      node
+        .attr('cx', (d: any) => d.x)
+        .attr('cy', (d: any) => d.y);
+
+      label
+        .attr('x', (d: any) => d.x)
+        .attr('y', (d: any) => d.y);
+    });
+
+    function dragstarted(event: any, d: any) {
+      if (!event.active) simulation.alphaTarget(0.3).restart();
+      d.fx = d.x;
+      d.fy = d.y;
+    }
+
+    function dragged(event: any, d: any) {
+      d.fx = event.x;
+      d.fy = event.y;
+    }
+
+    function dragended(event: any, d: any) {
+      if (!event.active) simulation.alphaTarget(0);
+      d.fx = null;
+      d.fy = null;
+    }
   }
 }
+
+
+

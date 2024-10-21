@@ -1,2 +1,11 @@
-<h2>Bar Chart</h2>
-<figure id="bar"></figure>
+<div>
+    <input style="width: 200px;margin-right: 5px;" type="text" [(ngModel)]="searchTerm" placeholder="Enter node name"
+        (change)="addfilter($event)" />
+    <label>Available Relations</label>
+    <select [(ngModel)]="relation_filter">
+        <option value="">none</option>
+        <option *ngFor="let rel of available_relations" [value]="rel">{{rel}}</option>
+    </select>
+</div>
+
+<svg width="600" height="400"></svg>
