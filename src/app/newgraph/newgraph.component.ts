@@ -51,7 +51,7 @@ export class NewgraphComponent {
     }
   }
   relationChanged(event: any) {
-    console.log(event);
+    this.addFilterAndCreateLinks(event);
   }
   getAvailableCompanies() {
     // map the list of companies to a list of only their names
@@ -124,7 +124,7 @@ export class NewgraphComponent {
       for (let relation of company?.Relations ?? []) {
 
         let targetNode = this.getNodeById(relation.ObjectID);
-        //       // if there is a relation_filter set (!) only add links that match that filter
+        //  only add links that match that filter
         if (this.relation_filter == '' || this.relation_filter == relation.relation_type) {
           let link = {
             source: sourceNode,
@@ -190,10 +190,10 @@ export class NewgraphComponent {
     this.links = links;
   }
   getCenterNode(event: Event): void {
-    const selectElement = event.target as HTMLSelectElement;
-    const selectedValue = selectElement.value;  // Get the selected option value
-    console.log(selectedValue);  // Log the selected company value
-
+    // const selectElement = event.target as HTMLSelectElement;
+    // const selectedValue = selectElement.value;  // Get the selected option value
+    // console.log(selectedValue);  // Log the selected company value
+    this.addFilterAndCreateLinks(event);
   }
 
   setToSearchterm() {
@@ -316,7 +316,7 @@ export class NewgraphComponent {
     // Clear the previous relations list
     this.relationsList = [];
 
-    // Step 1: Find the searched node based on the search term
+    //  Find the searched node based on the search term
     const searchedNode = this.nodes.find(node => node.name.toLowerCase() === this.searchTerm.toLowerCase());
 
     if (!searchedNode) {
@@ -325,7 +325,7 @@ export class NewgraphComponent {
       return;
     }
 
-    // Step 2: Loop through companies and find relations for the searched company
+    // Loop through companies and find relations for the searched company
     for (let company of this.data.getCompanies()) {
       if (company.name.toLowerCase() === this.searchTerm.toLowerCase()) {
         // Collect relation types and target company names for the searched node
@@ -339,7 +339,7 @@ export class NewgraphComponent {
       }
     }
 
-    // Step 3: If no relations were found, display a message indicating that
+    //  If no relations were found, display a message indicating that
     if (this.relationsList.length === 0) {
       this.relationsList.push(`${this.searchTerm} ist ein kunde von Codeschaffer.`);
     }
@@ -350,21 +350,22 @@ export class NewgraphComponent {
     let links: d3link[] = [];
     let connectedNodes: any[] = [];
 
-    // Step 1: Retrieve the selected company and relation filter values
+    //  Retrieve the selected company and relation filter values
     const selectedCompany = this.selected_company;
     const selectedRelation = this.relation_filter;
 
-    // Step 2: Find the searched node based on the search term
+    //  Find the searched node based on the search term
     const searchedNode = this.nodes.find(node => node.name.toLowerCase() === this.searchTerm.toLowerCase());
 
-    // Step 3: Loop through companies to find relations
+    //  Loop through companies to find relations
     for (let company of this.data.getCompanies()) {
+
       let sourceNode = company;
 
       for (let relation of company?.Relations ?? []) {
         let targetNode = this.getNodeById(relation.ObjectID);
 
-        // Step 4: Add link if it matches the filter
+        // Add link if it matches the filter
         if (selectedRelation === "" || selectedRelation === relation.relation_type) {
           let link = {
             source: sourceNode,
@@ -379,7 +380,7 @@ export class NewgraphComponent {
       }
     }
 
-    // Step 5: If a searched node exists, filter links based on it
+    // If a searched node exists, filter links based on it
     if (searchedNode) {
       const filteredLinks = links.filter(link => link.source === searchedNode || link.target === searchedNode);
 
@@ -390,22 +391,22 @@ export class NewgraphComponent {
         ...filteredLinks.map(link => link.target)
       ]));
 
-      // Step 6: Display relations for the searched term
+      //  Display relations for the searched term
       this.displaySearchTermRelations();
 
-      // Step 7: Clear the existing SVG and redraw the graph
+      // Clear the existing SVG and redraw the graph
       d3.select('figure#netgraph').selectAll('*').remove();
       this.createSvg();
       this.drawGraph(connectedNodes, filteredLinks);
 
-      // Step 8: Highlight the searched node
+      //  Highlight the searched node
       this.svg.selectAll('circle')
         .filter((d: any) => d.name === this.searchTerm)
         .attr('r', 30) // Increase the radius
         .attr('stroke', 'red') // Add a red border
         .attr('stroke-width', 5); // Increase border width
 
-      // Step 9: Re-run simulation to adjust positions
+      // Re-run simulation to adjust positions
       const simulation = d3.forceSimulation(connectedNodes)
         .force('charge', d3.forceManyBody().strength(-200))  // Increase repulsive force
         .force('center', d3.forceCenter(this.width / 2, this.height / 2))
@@ -439,7 +440,7 @@ export class NewgraphComponent {
       this.links = links;
     }
 
-    // Step 10: Update the graph with sourceNode and targetNode based on the selected relation and company
+    //  Update the graph with sourceNode and targetNode based on the selected relation and company
     if (selectedCompany && selectedRelation) {
       const sourceNode = this.nodes.find(node => node.name === selectedCompany);
       let targetNode: any = null;
@@ -458,7 +459,7 @@ export class NewgraphComponent {
         this['targetNode'] = targetNode;
 
 
-        // Optionally update the D3 graph with these new nodes
+        // update the D3 graph with these new nodes
         this['updateD3Graph'](this['sourceNode'], this['targetNode']);
       }
     }

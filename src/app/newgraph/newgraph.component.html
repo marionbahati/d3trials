@@ -15,17 +15,17 @@
     <div style="display: flex;flex-direction: row;margin-left: 30vw;margin-top: 2vh;margin-left: 22vw;">
         <div style="margin-right: 10px;">
             <label>Beziehungstypen</label>
-            <select [(ngModel)]="relation_filter">
+            <select [(ngModel)]="relation_filter" (change)="relationChanged($event)">
                 <option value="">none</option>
                 <option *ngFor="let rel of available_relations" [value]="rel">{{rel}}</option>
             </select>
         </div>
-        <div>
+        <!-- <div>
             <label>Center Company</label>
-            <select [(ngModel)]="selected_company">
+            <select [(ngModel)]="selected_company" (change)="getCenterNode($event)">
                 <option *ngFor="let company of available_companies" [value]="company">{{company}}</option>
             </select>
-        </div>
+        </div> -->
 
     </div>
     <div *ngIf="relationsList.length > 0" style="margin-top: 20px;margin-left: 15vw">
