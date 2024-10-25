@@ -2,7 +2,7 @@
     <h1 style="margin-left: 25vw;">CODESCHAFFER KUNDEN</h1>
     <div style="display: flex;margin-top: 3vh;margin-left: 25vw;margin-bottom: 1vh;">
         <label for="inputField">Kunde wählen:</label>
-        <select [(ngModel)]="searchTerm" (change)="addFilterAndCreateLinks($event)">
+        <select [(ngModel)]="searchTerm" (change)=" addFilterAndCreateLinks($event)">
             <option *ngFor="let company of available_companies" [value]="company">{{company}}</option>
 
         </select>
