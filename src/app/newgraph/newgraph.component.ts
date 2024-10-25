@@ -71,7 +71,9 @@ export class NewgraphComponent {
         if (!relations.includes(relation.relation_type)) {
           // add it
           relations.push(relation.relation_type);
+
         }
+
       }
     }
     // save the available relations to property "available_relations"
@@ -112,39 +114,11 @@ export class NewgraphComponent {
     }
     return false;
   }
-  //create all links from company relations to each other
-  cdreateAllLinks() {
-    let links: d3link[] = [];
 
-    for (let company of this.data.getCompanies()) {
-
-      let sourceNode = company;
-
-
-      for (let relation of company?.Relations ?? []) {
-
-        let targetNode = this.getNodeById(relation.ObjectID);
-        //  only add links that match that filter
-        if (this.relation_filter == '' || this.relation_filter == relation.relation_type) {
-          let link = {
-            source: sourceNode,
-            target: targetNode
-          };
-          // only add the link if it is not in the list already
-          if (sourceNode !== undefined && targetNode !== undefined && !this.hasLink(links, link)) {
-            links.push(link);
-          }
-        }
-
-
-
-      }
-
-    }
-    this.links = links;
-  }
   createAllLinks() {
     let links: d3link[] = [];
+    const selectedCompany = this.selected_company;
+    const selectedRelation = this.relation_filter;
 
     // Find the central company node with the name "Codeschaffer"
     let centralCompany = this.data.getCompanies().find(company => company.name === 'Codeschaffer');
@@ -188,13 +162,9 @@ export class NewgraphComponent {
 
     // Set the links array to include all the generated links
     this.links = links;
+
   }
-  getCenterNode(event: Event): void {
-    // const selectElement = event.target as HTMLSelectElement;
-    // const selectedValue = selectElement.value;  // Get the selected option value
-    // console.log(selectedValue);  // Log the selected company value
-    this.addFilterAndCreateLinks(event);
-  }
+
 
   setToSearchterm() {
     this.searchTerm = this.selected_company;
@@ -204,7 +174,7 @@ export class NewgraphComponent {
     this.getAvailableRelations();
     this.createNodes();
     this.createAllLinks();
-    // this.cdreateAllLinks();
+
     this.setToSearchterm();
   }
 
@@ -341,10 +311,14 @@ export class NewgraphComponent {
 
     //  If no relations were found, display a message indicating that
     if (this.relationsList.length === 0) {
-      this.relationsList.push(`${this.searchTerm} ist ein kunde von Codeschaffer.`);
+      this.relationsList.push(`${this.searchTerm} ist ein nur kunde von Codeschaffer.Weitere bekannte Beziehungen gibt es nicht`);
     }
   }
+  //try this
 
+
+
+  //try this
 
   addFilterAndCreateLinks(event: any) {
     let links: d3link[] = [];
@@ -365,6 +339,8 @@ export class NewgraphComponent {
       for (let relation of company?.Relations ?? []) {
         let targetNode = this.getNodeById(relation.ObjectID);
 
+
+
         // Add link if it matches the filter
         if (selectedRelation === "" || selectedRelation === relation.relation_type) {
           let link = {
@@ -372,12 +348,14 @@ export class NewgraphComponent {
             target: targetNode
           };
 
+
           // Only add the link if it's not already in the list
           if (sourceNode && targetNode && !this.hasLink(links, link)) {
             links.push(link);
           }
         }
       }
+
     }
 
     // If a searched node exists, filter links based on it
@@ -408,10 +386,10 @@ export class NewgraphComponent {
 
       // Re-run simulation to adjust positions
       const simulation = d3.forceSimulation(connectedNodes)
-        .force('charge', d3.forceManyBody().strength(-200))  // Increase repulsive force
+        .force('charge', d3.forceManyBody().strength(-400))  // Increase repulsive force
         .force('center', d3.forceCenter(this.width / 2, this.height / 2))
-        .force('link', d3.forceLink(filteredLinks).id((d: any) => d.index).distance(100))  // Increase link distance
-        .force('collision', d3.forceCollide().radius(70))  // Add collision force to prevent overlap
+        .force('link', d3.forceLink(filteredLinks).id((d: any) => d.index).distance(50))  // Increase link distance
+        .force('collision', d3.forceCollide().radius(30))  // Add collision force to prevent overlap
         .on('tick', () => {
           this.svg.selectAll('circle')
             .attr('cx', (d: any) => d.x)
