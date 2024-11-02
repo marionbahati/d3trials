@@ -20,12 +20,7 @@
                 <option *ngFor="let rel of available_relations" [value]="rel">{{rel}}</option>
             </select>
         </div>
-        <!-- <div>
-            <label>Center Company</label>
-            <select [(ngModel)]="selected_company" (change)="getCenterNode($event)">
-                <option *ngFor="let company of available_companies" [value]="company">{{company}}</option>
-            </select>
-        </div> -->
+
 
     </div>
     <div *ngIf="relationsList.length > 0" style="margin-top: 20px;margin-left: 15vw">

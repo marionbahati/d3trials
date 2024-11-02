@@ -120,11 +120,12 @@ export class NewgraphComponent {
     const selectedCompany = this.selected_company;
     const selectedRelation = this.relation_filter;
 
+
     // Find the central company node with the name "Codeschaffer"
     let centralCompany = this.data.getCompanies().find(company => company.name === 'Codeschaffer');
 
     if (!centralCompany) {
-      console.error("Center company 'Codeschaffer' not found!");
+
       return;
     }
 
@@ -132,7 +133,7 @@ export class NewgraphComponent {
 
     // Ensure the central node exists
     if (!centralNode) {
-      console.error("D3 node for 'Codeschaffer' not found!");
+
       return;
 
 
@@ -163,7 +164,14 @@ export class NewgraphComponent {
     // Set the links array to include all the generated links
     this.links = links;
 
+
+
+
   }
+
+
+
+
 
 
   setToSearchterm() {
@@ -194,10 +202,10 @@ export class NewgraphComponent {
 
   private drawGraph(nodes: any, links: any): void {
     const simulation = d3.forceSimulation(nodes)
-      .force('charge', d3.forceManyBody().strength(-6750))
+      .force('charge', d3.forceManyBody().strength(-3500))
       .force('center', d3.forceCenter(this.width / 2, this.height / 2))
       .force('link', d3.forceLink(links).id((d: any) => d.index))
-      .force('collision', d3.forceCollide().radius(-7700))
+      .force('collision', d3.forceCollide().radius(-4000))
       .force('link', d3.forceLink(this.links).id((d: any) => d.index).distance(200))
       .on('tick', ticked);
 
@@ -289,12 +297,6 @@ export class NewgraphComponent {
     //  Find the searched node based on the search term
     const searchedNode = this.nodes.find(node => node.name.toLowerCase() === this.searchTerm.toLowerCase());
 
-    if (!searchedNode) {
-      // If the search term does not match any node, show an error message
-      this.relationsList.push(`Company '${this.searchTerm}' not found.`);
-      return;
-    }
-
     // Loop through companies and find relations for the searched company
     for (let company of this.data.getCompanies()) {
       if (company.name.toLowerCase() === this.searchTerm.toLowerCase()) {
@@ -314,11 +316,7 @@ export class NewgraphComponent {
       this.relationsList.push(`${this.searchTerm} ist ein nur kunde von Codeschaffer.Weitere bekannte Beziehungen gibt es nicht`);
     }
   }
-  //try this
 
-
-
-  //try this
 
   addFilterAndCreateLinks(event: any) {
     let links: d3link[] = [];
@@ -384,12 +382,14 @@ export class NewgraphComponent {
         .attr('stroke', 'red') // Add a red border
         .attr('stroke-width', 5); // Increase border width
 
+
       // Re-run simulation to adjust positions
       const simulation = d3.forceSimulation(connectedNodes)
-        .force('charge', d3.forceManyBody().strength(-400))  // Increase repulsive force
+        .force('charge', d3.forceManyBody().strength(-100))  // Increase repulsive force
         .force('center', d3.forceCenter(this.width / 2, this.height / 2))
-        .force('link', d3.forceLink(filteredLinks).id((d: any) => d.index).distance(50))  // Increase link distance
+        .force('link', d3.forceLink(filteredLinks).id((d: any) => d.index).distance(30))  // Increase link distance
         .force('collision', d3.forceCollide().radius(30))  // Add collision force to prevent overlap
+
         .on('tick', () => {
           this.svg.selectAll('circle')
             .attr('cx', (d: any) => d.x)
@@ -413,33 +413,7 @@ export class NewgraphComponent {
           node.fy = this.height / 2;
         }
       });
-    } else {
-      // If no searched node, assign all links
-      this.links = links;
-    }
 
-    //  Update the graph with sourceNode and targetNode based on the selected relation and company
-    if (selectedCompany && selectedRelation) {
-      const sourceNode = this.nodes.find(node => node.name === selectedCompany);
-      let targetNode: any = null;
-
-      for (let relation of this.relationsList) {
-        const [relationType, targetCompanyName] = relation.split("  : ");
-
-        if (relationType === selectedRelation) {
-          targetNode = this.nodes.find(node => node.name === targetCompanyName);
-          break;
-        }
-      }
-
-      if (sourceNode && targetNode) {
-        this['sourceNode'] = sourceNode;
-        this['targetNode'] = targetNode;
-
-
-        // update the D3 graph with these new nodes
-        this['updateD3Graph'](this['sourceNode'], this['targetNode']);
-      }
     }
   }
 
