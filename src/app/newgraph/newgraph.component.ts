@@ -74,8 +74,8 @@ export class NewgraphComponent {
   getAvailableCompanies() {
 
     this.available_companies = this.data.getCompanies().map((c: Company) => c.name);
-
-
+    //new
+    this.verfügbare_Beziehungen = this.data.getCompanies().map((c: Company) => c.name);
 
   }
 
@@ -93,6 +93,8 @@ export class NewgraphComponent {
     }
 
     this.available_relations = relations;
+    //new
+    this.verfügbare_Beziehungen = relations;
   }
 
   createNodes() {
@@ -287,9 +289,11 @@ export class NewgraphComponent {
   }
 
   addFilterAndCreateLinks(event: any) {
+
     let links: d3link[] = [];
     let connectedNodes: any[] = [];
     this.relationsList = [];
+
     const selectedCompany = this.selected_company;
     const selectedRelation = this.relation_filter;
     const searchedNode = this.nodes.find(node => node.name.toLowerCase() === this.searchTerm.toLowerCase());

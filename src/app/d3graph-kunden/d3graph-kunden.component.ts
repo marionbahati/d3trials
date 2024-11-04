@@ -34,7 +34,7 @@ export class D3graphKundenComponent {
   private margin = 20;
   private width = 1200 - (this.margin * 2);
   private height = 900 - (this.margin * 2);
-  private nodes: d3node[] = [];
+  private nodes: Node[] = [];
   private links: d3link[] = [];
   ausgewählterkunde: any;
   ausgewählteBeziehung: any;
