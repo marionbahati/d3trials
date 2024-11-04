@@ -41,6 +41,24 @@ export class NewgraphComponent {
   private chosenRelationType: any;
   private chosenCenterCompany: any;
 
+
+  //NEW
+  ausgewählterkunde: any;
+  ausgewählteBeziehung: any;
+  gesuchtKunde: any;
+  verfügbare_Beziehungen: string[] = [];
+  verfügbare_Kunden: string[] = [];
+  beziehungenListe: string[] = [];
+  muttergesellschaft = "codeschaffer";
+  quellLink!: string;
+  zielLink!: string;
+  beziehungen: string[] = [];
+  chosenRelation!: string;
+  chosen!: string
+
+
+
+
   ngOnInit(): void {
     if (this.data.isReady()) {
       this.draw();
@@ -54,29 +72,26 @@ export class NewgraphComponent {
     this.addFilterAndCreateLinks(event);
   }
   getAvailableCompanies() {
-    // map the list of companies to a list of only their names
+
     this.available_companies = this.data.getCompanies().map((c: Company) => c.name);
 
 
 
   }
+
   getAvailableRelations() {
-    // the list of relation-types
+
     let relations: string[] = [];
-    // iterate over every company
     for (let c of this.data.getCompanies()) {
-      // iterate over earch company's relation
       for (let relation of c.Relations) {
-        // if the relation is not already in the list
         if (!relations.includes(relation.relation_type)) {
-          // add it
           relations.push(relation.relation_type);
 
         }
 
       }
     }
-    // save the available relations to property "available_relations"
+
     this.available_relations = relations;
   }
 
@@ -89,14 +104,12 @@ export class NewgraphComponent {
     );
   }
 
+
   getNodeByName(n: string) {
-    // this.nodes is an array
-    // Array.find() returns the first element of the array for that the condition evaluates to true
-    // if none matches, undefined is returned
+
     return this.nodes.find(v => v.name == n);
   }
-  // lookup a company of type "Company" by Id
-  // then lookup the corresponding node (see this.nodes) by the companies "name"
+
   getNodeById(id: number) {
     let company = this.data.getCompanies().find((x: Company) => x.id == id);
     if (company) {
@@ -104,7 +117,6 @@ export class NewgraphComponent {
     }
     return undefined;
   }
-
   // check if a link ("link") is in an array of links "list"
   hasLink(list: d3link[], link: d3link) {
     for (let l of list) {
@@ -117,11 +129,6 @@ export class NewgraphComponent {
 
   createAllLinks() {
     let links: d3link[] = [];
-    const selectedCompany = this.selected_company;
-    const selectedRelation = this.relation_filter;
-
-
-    // Find the central company node with the name "Codeschaffer"
     let centralCompany = this.data.getCompanies().find(company => company.name === 'Codeschaffer');
 
     if (!centralCompany) {
@@ -129,51 +136,24 @@ export class NewgraphComponent {
       return;
     }
 
-    let centralNode = this.getNodeByName(centralCompany.name); // Get the D3 node for "Codeschaffer"
-
-    // Ensure the central node exists
-    if (!centralNode) {
-
-      return;
-
-
-
-    }
-
-    // Iterate through all companies and create links from the center node to each of them
+    let centralNode = this.getNodeByName(centralCompany.name);
     for (let company of this.data.getCompanies()) {
-      // Ensure we are not linking the central node to itself
       if (company.name !== 'Codeschaffer') {
-        let targetNode = this.getNodeByName(company.name); // Get the D3 node for the target company
-
-        // Ensure the target node exists before creating the link
+        let targetNode = this.getNodeByName(company.name);
         if (targetNode) {
           let link = {
-            source: centralNode,  // Set the source as the central node
-            target: targetNode    // Set the target as the current company node
+            source: centralNode,
+            target: targetNode
           };
-
-          // Only add the link if it is not already in the list
           if (!this.hasLink(links, link)) {
             links.push(link);
           }
         }
       }
     }
-
-    // Set the links array to include all the generated links
     this.links = links;
 
-
-
-
   }
-
-
-
-
-
-
   setToSearchterm() {
     this.searchTerm = this.selected_company;
   }
@@ -283,113 +263,78 @@ export class NewgraphComponent {
     window.location.reload()
   }
   DeleteSEarchterm() {
-    this.searchTerm = "";
+    this.gesuchtKunde = "";
     setTimeout(() => {
       this.reloadPage()
     }, 100);
   }
-
-
   displaySearchTermRelations() {
-    // Clear the previous relations list
     this.relationsList = [];
-
-    //  Find the searched node based on the search term
     const searchedNode = this.nodes.find(node => node.name.toLowerCase() === this.searchTerm.toLowerCase());
-
-    // Loop through companies and find relations for the searched company
     for (let company of this.data.getCompanies()) {
       if (company.name.toLowerCase() === this.searchTerm.toLowerCase()) {
-        // Collect relation types and target company names for the searched node
         for (let relation of company.Relations ?? []) {
-          let targetCompany = this.getNodeById(relation.ObjectID); // Find the related company by its ID
+          let targetCompany = this.getNodeById(relation.ObjectID);
           if (targetCompany) {
-            // Add a string combining the relation type and the target company name
             this.relationsList.push(`${relation.relation_type}  : ${targetCompany.name}`);
           }
         }
       }
     }
-
-    //  If no relations were found, display a message indicating that
     if (this.relationsList.length === 0) {
       this.relationsList.push(`${this.searchTerm} ist ein nur kunde von Codeschaffer.Weitere bekannte Beziehungen gibt es nicht`);
     }
   }
 
-
   addFilterAndCreateLinks(event: any) {
     let links: d3link[] = [];
     let connectedNodes: any[] = [];
-
-    //  Retrieve the selected company and relation filter values
+    this.relationsList = [];
     const selectedCompany = this.selected_company;
     const selectedRelation = this.relation_filter;
-
-    //  Find the searched node based on the search term
     const searchedNode = this.nodes.find(node => node.name.toLowerCase() === this.searchTerm.toLowerCase());
-
-    //  Loop through companies to find relations
     for (let company of this.data.getCompanies()) {
-
       let sourceNode = company;
 
-      for (let relation of company?.Relations ?? []) {
+      for (let relation of (company?.Relations || [])) {
         let targetNode = this.getNodeById(relation.ObjectID);
-
-
-
-        // Add link if it matches the filter
+        if (targetNode) {
+          this.relationsList.push(`${relation.relation_type}  : ${targetNode.name}`);
+        }
         if (selectedRelation === "" || selectedRelation === relation.relation_type) {
           let link = {
             source: sourceNode,
             target: targetNode
           };
-
-
-          // Only add the link if it's not already in the list
           if (sourceNode && targetNode && !this.hasLink(links, link)) {
             links.push(link);
           }
         }
       }
-
     }
-
-    // If a searched node exists, filter links based on it
     if (searchedNode) {
       const filteredLinks = links.filter(link => link.source === searchedNode || link.target === searchedNode);
-
-      // Ensure that the searched node and connected nodes are included
       connectedNodes = Array.from(new Set([
         searchedNode,
         ...filteredLinks.map(link => link.source),
         ...filteredLinks.map(link => link.target)
       ]));
 
-      //  Display relations for the searched term
-      this.displaySearchTermRelations();
 
-      // Clear the existing SVG and redraw the graph
+      this.displaySearchTermRelations();
       d3.select('figure#netgraph').selectAll('*').remove();
       this.createSvg();
       this.drawGraph(connectedNodes, filteredLinks);
-
-      //  Highlight the searched node
       this.svg.selectAll('circle')
         .filter((d: any) => d.name === this.searchTerm)
-        .attr('r', 30) // Increase the radius
-        .attr('stroke', 'red') // Add a red border
-        .attr('stroke-width', 5); // Increase border width
-
-
-      // Re-run simulation to adjust positions
+        .attr('r', 30)
+        .attr('stroke', 'red')
+        .attr('stroke-width', 5);
       const simulation = d3.forceSimulation(connectedNodes)
-        .force('charge', d3.forceManyBody().strength(-100))  // Increase repulsive force
+        .force('charge', d3.forceManyBody().strength(-100))
         .force('center', d3.forceCenter(this.width / 2, this.height / 2))
-        .force('link', d3.forceLink(filteredLinks).id((d: any) => d.index).distance(30))  // Increase link distance
-        .force('collision', d3.forceCollide().radius(30))  // Add collision force to prevent overlap
-
+        .force('link', d3.forceLink(filteredLinks).id((d: any) => d.index).distance(30))
+        .force('collision', d3.forceCollide().radius(30))
         .on('tick', () => {
           this.svg.selectAll('circle')
             .attr('cx', (d: any) => d.x)
@@ -405,17 +350,18 @@ export class NewgraphComponent {
             .attr('dx', (d: any) => d.x)
             .attr('dy', (d: any) => d.y);
         });
-
-      // Fix the searched node in the center
+      // center the nodes
       simulation.nodes().forEach((node: any) => {
         if (node.name === this.searchTerm) {
           node.fx = this.width / 2;
           node.fy = this.height / 2;
         }
       });
-
     }
   }
 
+
 }
+
+
 
